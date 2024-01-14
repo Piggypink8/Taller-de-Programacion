@@ -5,11 +5,11 @@
 ![type-computer-squid-girl](https://github.com/Piggypink8/TallerDeProgramacion/assets/73083105/bacbea50-bba7-475f-ace4-78a1af81ebc2)
 
 ## Guías
-[Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Guías)
-[Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Guías)
-[Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Guía)
+- [Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Guías)
+- [Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Guías)
+- [Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Guía)
 
 ## Prácticas
-[Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Practicas)
-[Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Practicas)
-[Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Practicas)
+- [Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Practicas)
+- [Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Practicas)
+- [Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Practicas)
