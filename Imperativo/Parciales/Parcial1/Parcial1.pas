@@ -130,9 +130,15 @@ end;
 procedure recitalesConMontoEntre(a:arbol;var L:lista;inf,sup:integer);
 begin
 	if(a<>nil)then begin
-		if((a^.elem.recaudo >= inf) or (a^.elem.recaudo <= sup))then
-			recorrerLista(a^.elem.bandas,L);
-		recitalesConMontoEntre(a^.HI,L,inf,sup);
+		if((a^.elem.recaudo <= sup))then
+			if(a^.elem.recaudo >= inf)then begin
+				recorrerLista(a^.elem.bandas,L);
+				recitalesConMontoEntre(a^.HI,L,inf,sup);
+				recitalesConMontoEntre(a^.HD,L,inf,sup);
+			end
+			else
+				recitalesConMontoEntre(a^.HI,L,inf,sup);
+		else	
 		recitalesConMontoEntre(a^.HD,L,inf,sup);
 	end
 	
