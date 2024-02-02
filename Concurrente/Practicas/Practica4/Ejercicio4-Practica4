@@ -1,0 +1,110 @@
+programa Master-Slave-Practica4-Ejercicio4
+procesos 
+  proceso juntarFlores(E av:numero ; E ca:numero)
+  variables
+    caIni,avIni:numero
+  comenzar
+    caIni:= PosCa
+    avIni:= PosAv
+    BloquearEsquina(av,ca)
+    Pos(av,ca)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+    Pos(avIni,caIni)
+    LiberarEsquina(av,ca)
+  fin
+  proceso juntarPapeles(E av:numero ; E ca:numero)
+  variables
+    caIni, avIni:numero
+  comenzar
+    caIni:= PosCa
+    avIni:= PosAv
+    BloquearEsquina(av,ca)
+    Pos(av,ca) 
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+    Pos(avIni,caIni)
+    LiberarEsquina(av,ca)
+  fin
+  proceso vaciarBolsa(E av:numero ; E ca:numero)
+  variables
+    caIni, avIni:numero
+  comenzar
+    caIni:= PosCa
+    avIni:= PosAv
+    BloquearEsquina(av,ca)
+    Pos(av,ca)
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(avIni,caIni)
+    LiberarEsquina(av,ca)
+  fin
+areas
+  ciudad : AreaPC(2,2,100,100)
+  area1 : AreaP(1,1,1,1)
+  area2 : AreaP(2,1,2,1)
+  area3 : AreaP(3,1,3,1)
+robots
+  robot slave
+  variables
+    av,ca,id,solicitud:numero
+  comenzar
+    RecibirMensaje(id,master)
+    RecibirMensaje(solicitud,master)
+    mientras(solicitud <> 4)
+      RecibirMensaje(av,master)
+      RecibirMensaje(ca,master)
+      si(solicitud = 1)  
+        juntarFlores(av,ca)
+      sino
+        si(solicitud = 2)
+          juntarPapeles(av,ca)
+        sino
+          si(solicitud = 3)
+            vaciarBolsa(av,ca)
+      EnviarMensaje(V,master)
+      RecibirMensaje(solicitud,master)
+  fin
+  robot master
+  variables
+    id,av,ca,solicitud:numero
+    termino:boolean
+  comenzar
+    EnviarMensaje(1,slave1)
+    EnviarMensaje(2,slave2)
+    repetir 10
+      Random(id,1,2)
+      Random(solicitud,1,3)
+      Random(av,2,100)
+      Random(ca,2,100)
+      si(id = 1)
+        EnviarMensaje(solicitud,slave1)
+        EnviarMensaje(av,slave1)
+        EnviarMensaje(ca,slave1)
+        RecibirMensaje(termino,slave1)
+      sino
+        si(id = 2)
+          EnviarMensaje(solicitud,slave2)
+          EnviarMensaje(ca,slave2)
+          EnviarMensaje(av,slave2)
+          RecibirMensaje(termino,slave2)
+    EnviarMensaje(4,slave1)
+    EnviarMensaje(4,slave2)
+  fin
+variables
+  slave1 : slave
+  slave2 : slave
+  master : master
+comenzar
+  AsignarArea(slave1,ciudad)
+  AsignarArea(slave2,ciudad)
+  AsignarArea(slave1,area2)
+  AsignarArea(slave2,area3)
+  AsignarArea(master,area1)
+  Iniciar(slave1,2,1)
+  Iniciar(slave2,3,1)
+  Iniciar(master,1,1)
+fin
+
