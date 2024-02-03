@@ -1,0 +1,112 @@
+programa Clients-Servers-Ejercicio1-Practica4
+procesos
+  proceso juntarFlores
+  variables
+    ca:numero
+  comenzar
+    mover
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+    ca:= PosCa - 1
+    Pos(PosAv,ca)
+  fin
+  proceso depositarFlores
+  comenzar
+    mientras ((HayFlorEnLaBolsa) & (PosCa < 10))
+      depositarFlor
+      mover
+  fin
+  proceso depositarEsquina(E flores: numero;E av:numero; E ca:numero)
+  comenzar
+    Pos(av,ca)
+    mientras (flores <> 0)
+      depositarFlor
+      flores := flores - 1
+    Pos(100,1)
+  fin
+areas
+  area1: AreaPC(1,1,1,10)
+  area2: AreaPC(2,1,2,10)
+  area3: AreaPC(3,1,3,10)
+  area4: AreaP(100,1,100,1)
+robots
+  robot client
+  variables
+    empiezo: boolean
+    ca,av,id,flores: numero
+  comenzar
+    RecibirMensaje(id,server)
+    av:= PosAv
+    mientras (PosCa < 10)
+      Random(flores,1,4)
+      EnviarMensaje(id,server)
+      EnviarMensaje(flores,server)
+      EnviarMensaje(av,server)
+      ca:= PosCa + 1
+      EnviarMensaje(ca,server)
+      RecibirMensaje(empiezo,server)
+      juntarFlores
+      depositarFlores
+      si PosCa = 10
+        EnviarMensaje(V,server)
+      sino
+        EnviarMensaje(F,server)
+  fin
+  robot server
+  variables
+    cantTerminados,id,flores,av,ca: numero
+    termino : boolean
+  comenzar
+    cantTerminados := 0
+    EnviarMensaje(1,c1)
+    EnviarMensaje(2,c2)
+    EnviarMensaje(3,c3)
+    mientras(cantTerminados <> 3)
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(flores,c1) 
+        RecibirMensaje(av,c1) 
+        RecibirMensaje(ca,c1)   
+        depositarEsquina(flores,av,ca)
+        EnviarMensaje(V,c1)
+        RecibirMensaje(termino,c1)
+        si termino
+          cantTerminados:= cantTerminados + 1
+      sino
+        si (id = 2)
+          RecibirMensaje(flores,c2)
+          RecibirMensaje(av,c2) 
+          RecibirMensaje(ca,c2)   
+          depositarEsquina(flores,av,ca)
+          EnviarMensaje(V,c2)  
+          RecibirMensaje(termino,c2)
+          si termino
+            cantTerminados:= cantTerminados + 1
+        sino
+          RecibirMensaje(flores,c3)
+          RecibirMensaje(av,c3) 
+          RecibirMensaje(ca,c3)   
+          depositarEsquina(flores,av,ca)
+          EnviarMensaje(V,c3)  
+          RecibirMensaje(termino,c3)
+          si termino
+            cantTerminados:= cantTerminados + 1
+  fin
+variables
+  c1:client
+  c2:client
+  c3:client
+  server:server
+comenzar
+  AsignarArea(c1,area1)
+  AsignarArea(c2,area2)
+  AsignarArea(c3,area3)
+  AsignarArea(server,area4)
+  AsignarArea(server,area1)
+  AsignarArea(server,area2)
+  AsignarArea(server,area3)
+  Iniciar(c1,1,1)
+  Iniciar(c2,2,1)
+  Iniciar(c3,3,1)
+  Iniciar(server,100,1)
+fin
