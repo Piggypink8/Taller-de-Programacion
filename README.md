@@ -13,3 +13,8 @@
 - [Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Practicas)
 - [Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Practicas)
 - [Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Practicas)
+
+## Parciales - Finales
+- [Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Parciales)
+- [Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Parciales)
+- [Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Parciales)
