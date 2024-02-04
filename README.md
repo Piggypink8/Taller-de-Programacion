@@ -18,3 +18,9 @@
 - [Imperativo](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Imperativo/Parciales)
 - [Objetos](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Objetos/Parciales)
 - [Concurrente](https://github.com/Piggypink8/TallerDeProgramacion/tree/main/Concurrente/Parciales)
+
+## Entornos 🖥
+- [R-Info](https://github.com/Piggypink8/TallerDeProgramacion/blob/main/Concurrente/r-Info-2.9.jar)  🤖
+- [Geany](https://www.geany.org/download/releases/) 🐆
+- [NetBeans](https://netbeans.apache.org/front/main/download/index.html) ☕
+- [JDK](https://www.oracle.com/ar/java/technologies/downloads/)
