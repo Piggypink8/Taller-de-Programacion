@@ -29,10 +29,10 @@
 -  Imperativo 🐆
       * [Geany](https://www.geany.org/download/releases/) 
 -  Objetos ☕
-  * [NetBeans](https://netbeans.apache.org/front/main/download/index.html) 
-  * [JDK](https://www.oracle.com/ar/java/technologies/downloads/)
+      * [NetBeans](https://netbeans.apache.org/front/main/download/index.html) 
+      * [JDK](https://www.oracle.com/ar/java/technologies/downloads/)
 -  Concurrente 🤖
-  *  [R-Info](https://github.com/Piggypink8/TallerDeProgramacion/blob/main/Concurrente/r-Info-2.9.jar)
+      *  [R-Info](https://github.com/Piggypink8/TallerDeProgramacion/blob/main/Concurrente/r-Info-2.9.jar)
 
 
 > First, solve the problem. Then, write the code. – John Johnson
