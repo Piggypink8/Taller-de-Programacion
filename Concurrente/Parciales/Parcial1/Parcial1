@@ -1,0 +1,118 @@
+programa Parcial1
+procesos
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso recorrerPapelero(E pasos:numero)
+  comenzar
+    repetir pasos
+      juntarPapeles
+      mover
+  fin
+  proceso recorrerFlorero(E pasos:numero)
+  comenzar
+    repetir pasos
+      juntarFlores
+      mover
+  fin
+areas
+  ciudadF: AreaPC(2,1,49,49)
+  ciudadP: AreaPC(50,1,100,49)
+  ciudadD: AreaC(50,50,50,50)
+  ciudadJ: AreaP(1,1,1,1)
+robots
+  robot papelero
+  variables
+    pasos,caIni,avIni: numero
+  comenzar
+    Random(pasos,4,8)
+    recorrerPapelero(pasos)
+    derecha
+    pasos := pasos * 2
+    recorrerPapelero(pasos)
+    juntarPapeles
+    caIni:= PosCa
+    avIni:= PosAv
+    mientras HayPapelEnLaBolsa
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      depositarPapel
+      Pos(avIni,caIni)
+      LiberarEsquina(50,50)
+    EnviarMensaje(V,fiscal)
+  fin
+  robot florero
+  variables
+    pasos,caIni,avIni:numero
+  comenzar
+    Random(pasos,3,7)
+    recorrerFlorero(pasos)
+    izquierda
+    pasos:= pasos * 2
+    recorrerFlorero(pasos)
+    juntarFlores
+    caIni:= PosCa
+    avIni:= PosAv
+    mientras HayFlorEnLaBolsa
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      depositarFlor
+      Pos(avIni,caIni)
+      LiberarEsquina(50,50)
+    EnviarMensaje(V,fiscal)
+  fin
+  robot fiscalizador
+  variables
+    terminados,cant:numero
+    ok:boolean
+  comenzar
+    terminados:= 0
+    cant:= 0
+    mientras terminados < 4
+      RecibirMensaje(ok,*)
+      terminados:= terminados + 1
+    Pos(50,50)
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cant := cant + 1
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      cant:= cant + 1
+    Pos(1,1)
+    Informar(cant)
+  fin
+variables
+  p1: papelero
+  p2: papelero
+  f1: florero
+  f2: florero
+  fiscal: fiscalizador
+comenzar
+  AsignarArea(p1,ciudadP)
+  AsignarArea(p2,ciudadP)
+  AsignarArea(f1,ciudadF)
+  AsignarArea(f2,ciudadF)
+  AsignarArea(p1,ciudadD)
+  AsignarArea(p2,ciudadD)
+  AsignarArea(f1,ciudadD)
+  AsignarArea(f2,ciudadD)
+  AsignarArea(fiscal,ciudadJ)
+  AsignarArea(fiscal,ciudadD)
+  Iniciar(fiscal,1,1)
+  Iniciar(p1,50,1)
+  Iniciar(p2,50,20)
+  Iniciar(f1,49,1)
+  Iniciar(f2,49,20)
+fin
