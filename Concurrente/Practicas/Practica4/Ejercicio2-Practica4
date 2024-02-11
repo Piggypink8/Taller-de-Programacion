@@ -1,0 +1,95 @@
+programa Productores-Consumidores-Ejercicio2-Practica4
+procesos
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    repetir 5
+      si HayPapelEnLaEsquina
+        tomarPapel
+        papeles:= papeles + 1
+  fin
+  proceso depositar
+  comenzar
+    mientras HayPapelEnLaBolsa
+      depositarPapel
+  fin
+  proceso depositarPapeles
+  variables
+    caIni,avIni: numero
+  comenzar
+    caIni:= PosCa
+    avIni:= PosAv
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    depositar
+    Pos(avIni,caIni)
+    LiberarEsquina(50,50)
+  fin
+  proceso depositarConsumidor(E cant:numero;ES papeles:numero)
+  variables
+    avIni,caIni:numero
+  comenzar
+    avIni:= PosAv
+    caIni:= PosCa
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    repetir cant
+      si HayPapelEnLaEsquina
+        tomarPapel
+        papeles:= papeles + 1
+    si cant <> papeles
+      depositar
+    Pos(avIni,caIni)
+    LiberarEsquina(50,50)
+  fin
+areas
+  area1: AreaP(5,1,5,100)
+  area2: AreaP(10,1,10,100)
+  area3: AreaP(11,1,11,1)
+  area4: AreaP(12,1,12,1)
+  area5: AreaC(50,50,50,50)
+robots
+  robot productor
+  variables
+    papeles: numero
+  comenzar
+    papeles:= 0
+    mientras PosCa < 100  
+      mover
+      juntarPapeles(papeles)
+      si papeles = 5
+        depositarPapeles
+        papeles:= 0
+    Informar(papeles)
+  fin
+  robot consumidor
+  variables
+    intento,papeles,max:numero
+  comenzar
+    intento := 0
+    mientras (intento < 8)
+      Random(max,2,5)
+      papeles:= 0
+      depositarConsumidor(max,papeles)
+      depositar
+      si(papeles <> max)
+        intento := intento + 1
+  fin
+variables
+  p1 : productor
+  p2 : productor
+  c1 : consumidor
+  c2 : consumidor
+comenzar
+  AsignarArea(p1,area1)
+  AsignarArea(p2,area2)
+  AsignarArea(c1,area3)
+  AsignarArea(c2,area4)
+  AsignarArea(p1,area5)
+  AsignarArea(p2,area5)
+  AsignarArea(c1,area5)
+  AsignarArea(c2,area5)
+  Iniciar(p1,5,1)
+  Iniciar(p2,10,1)
+  Iniciar(c1,11,1)
+  Iniciar(c2,12,1)
+fin
