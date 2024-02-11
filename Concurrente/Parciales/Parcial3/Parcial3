@@ -84,6 +84,6 @@ comenzar
   AsignarArea(fiscal,ciudadJ)
   Iniciar(fiscal,1,1)
   Iniciar(p1,2,1)
-  Iniciar(p2,12,1)
-  Iniciar(p3,22,1)
+  Iniciar(p2,32,1)
+  Iniciar(p3,62,1)
 fin
