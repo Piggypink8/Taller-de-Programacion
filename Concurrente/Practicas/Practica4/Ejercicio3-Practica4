@@ -1,0 +1,53 @@
+  {  Inciso  A  }
+programa Sincronizacion-Barrera-Ejercicio3-Practica4
+procesos
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+areas
+  area1: AreaP(1,1,1,100)
+  area2: AreaP(2,1,2,100)
+  area3: AreaP(3,1,3,100)
+robots
+  robot papelero
+  variables
+    id: numero
+    ok: boolean
+  comenzar
+    id:= PosAv
+    repetir 4
+      mover
+      juntarPapeles
+    repetir 19
+      si id = 1
+        EnviarMensaje(V,p2)
+        EnviarMensaje(V,p3)
+      sino
+        si id = 2
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p3)
+        sino
+          EnviarMensaje(V,p1)
+          EnviarMensaje(V,p2)
+      RecibirMensaje(ok,*)
+      RecibirMensaje(ok,*)
+      repetir 5
+        mover
+        juntarPapeles
+  fin
+variables
+  p1 : papelero
+  p2 : papelero
+  p3 : papelero
+comenzar
+  AsignarArea(p1,area1)
+  AsignarArea(p2,area2)
+  AsignarArea(p3,area3)
+  Iniciar(p1,1,1)
+  Iniciar(p2,2,1)
+  Iniciar(p3,3,1)
+fin
+
+  {  Inciso  B  }
