@@ -1,0 +1,95 @@
+programa Parcial2
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+areas
+  ciudadF: AreaPC(1,1,40,20)
+  ciudadC: AreaC(50,50,50,50)
+  ciudadJ: AreaP(100,100,100,100)
+robots
+  robot florero
+  variables
+    caIni,avIni,id,tamanio:numero
+    ok:boolean
+  comenzar
+    RecibirMensaje(id,fiscal)
+    RecibirMensaje(tamanio,fiscal)
+    repetir 4
+      repetir tamanio
+        juntarFlores
+        mover
+      derecha
+    caIni:=PosCa
+    avIni:= PosAv
+    EnviarMensaje(id,fiscal)
+    RecibirMensaje(ok,fiscal)
+    BloquearEsquina(50,50)
+    mientras HayFlorEnLaBolsa
+      Pos(50,50)
+      depositarFlor
+      Pos(avIni,caIni)
+    EnviarMensaje(V,fiscal)
+    LiberarEsquina(50,50)   
+  fin
+  robot fiscalizador
+  variables
+    ok:boolean
+    tamanio,id,idMax,max,cant:numero
+  comenzar
+    Random(tamanio,1,6)
+    EnviarMensaje(1,f1)
+    EnviarMensaje(tamanio,f1)
+    Random(tamanio,1,6)
+    EnviarMensaje(2,f2)
+    EnviarMensaje(tamanio,f2)
+    Random(tamanio,1,6)
+    EnviarMensaje(3,f3)
+    EnviarMensaje(tamanio,f3)
+    max:= 0
+    repetir 3
+      cant:= 0
+      RecibirMensaje(id,*)
+      si id = 1
+        EnviarMensaje(V,f1)
+        RecibirMensaje(ok,f1)
+      sino
+        si id = 2
+          EnviarMensaje(V,f2)
+          RecibirMensaje(ok,f2)
+        sino
+          EnviarMensaje(V,f3)
+          RecibirMensaje(ok,f3)
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      mientras HayFlorEnLaEsquina
+        tomarFlor
+        cant:= cant + 1
+      Pos(100,100)
+      LiberarEsquina(50,50)
+      si cant > max
+        max:= cant
+        idMax:= id
+    Informar(idMax)
+  fin
+variables
+  f1: florero
+  f2: florero
+  f3: florero
+  fiscal: fiscalizador
+comenzar
+  AsignarArea(f1,ciudadF)
+  AsignarArea(f2,ciudadF)
+  AsignarArea(f3,ciudadF)
+  AsignarArea(f1,ciudadC)
+  AsignarArea(f2,ciudadC)
+  AsignarArea(f3,ciudadC)
+  AsignarArea(fiscal,ciudadC)
+  AsignarArea(fiscal,ciudadJ)
+  Iniciar(fiscal,100,100)
+  Iniciar(f1,1,1)
+  Iniciar(f2,10,1)
+  Iniciar(f3,20,1)
+fin
