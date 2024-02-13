@@ -1,0 +1,158 @@
+programa Parcial4
+procesos
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso depositarFlores
+  comenzar
+    mientras HayFlorEnLaBolsa
+      depositarFlor
+  fin
+  proceso depositarCentral(E caSig: numero)
+  variables
+    avIni, caIni : numero
+  comenzar
+    avIni := PosAv
+    caIni := PosCa
+    BloquearEsquina(avIni,caSig)
+    Pos(avIni,caSig)
+    depositarFlores
+    Pos(avIni,caIni)
+    LiberarEsquina(avIni,caSig)
+  fin
+  proceso depositarRecolector
+  variables
+    avIni : numero
+  comenzar
+    avIni := PosAv
+    BloquearEsquina(20,20)
+    Pos(20,20)
+    depositarFlores
+    Pos(avIni,20)
+    LiberarEsquina(20,20)
+  fin
+  proceso juntarFloresJefe(ES flores: numero)
+  comenzar
+    Pos(20,20)
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:= flores + 1
+    Pos(20,18)
+  fin
+areas
+  area1 : AreaP(9,21,19,21)
+  area2 : AreaPC(9,20,19,20)
+  area3 : AreaP(9,19,19,19)
+  area4 : AreaP(21,21,31,21)
+  area5 : AreaPC(21,20,31,20)
+  area6 : AreaP(21,19,31,19)
+  areaC : AreaC(20,20,20,20)
+  areaJ : AreaP(20,18,20,18)
+robots
+  robot florero
+  variables
+    avIni,caIni,caSig,id: numero
+  comenzar
+    si PosAv = 9
+      derecha
+    sino
+      izquierda
+    si PosCa = 21
+      caSig := PosCa - 1
+    sino
+      caSig := PosCa + 1
+    repetir 10
+      mover
+      juntarFlores
+      depositarCentral(caSig)
+    si  PosAv = 19
+      EnviarMensaje(V,r1)
+    sino
+      EnviarMensaje(V,r2)
+  fin
+  robot recolector
+  variables
+    id : numero
+    ok : boolean
+  comenzar
+    repetir 2
+      RecibirMensaje(ok,*)
+    si PosAv = 9
+      derecha
+    sino
+      izquierda
+    repetir 10
+      juntarFlores
+      mover
+    juntarFlores
+    id := PosAv
+    EnviarMensaje(id,fiscal) {le aviso al fiscal que termine de recolectar}
+    RecibirMensaje(ok,fiscal) {fiscal le avisa que empiece a depositar}
+    depositarRecolector {realizo mi tarea}
+    EnviarMensaje(V,fiscal) {le aviso al fiscal que termine de depositar}
+  fin
+  robot fiscalizador
+  variables
+    ok : boolean
+    id,idF,idG: numero
+    flores,floresMax : numero
+  comenzar
+    floresMax := 0
+    flores := 0
+    repetir 2
+      RecibirMensaje(id,*)
+      si floresMax = 0 {Si floresMax = 0 es el primer equipo en terminar}
+        idG:= id {id del primer equipo en llegar}
+      si id = 19
+        EnviarMensaje(V,r1)
+        RecibirMensaje(ok,r1)
+        juntarFloresJefe(flores)
+      sino
+        EnviarMensaje(V,r2)
+        RecibirMensaje(ok,r2)
+        juntarFloresJefe(flores)
+      si flores > floresMax {Comparo las flores}
+        floresMax:= flores
+        idF:= id {id del equipo con mas flores}
+      flores:= 0 { Reinicio contador de flores para el sig. equipo }
+    Informar(idG)
+    Informar(idF)
+  fin
+variables
+  f1 : florero
+  f2 : florero
+  f3 : florero
+  f4 : florero
+  r1 : recolector
+  r2 : recolector
+  fiscal : fiscalizador
+comenzar
+  AsignarArea(f1,area1)
+  AsignarArea(f1,area2)
+  AsignarArea(f2,area3) 
+  AsignarArea(f2,area2)
+  AsignarArea(f3,area4)
+  AsignarArea(f3,area5)
+  AsignarArea(f4,area6)
+  AsignarArea(f4,area5)
+  AsignarArea(r1,area2)
+  AsignarArea(r2,area5)
+  AsignarArea(r1,areaC)
+  AsignarArea(r2,areaC)
+  AsignarArea(fiscal,areaJ)
+  AsignarArea(fiscal,areaC)
+  Iniciar(f1,9,21)
+  Iniciar(f2,9,19)
+  Iniciar(f3,31,21)
+  Iniciar(f4,31,19)
+  Iniciar(r1,9,20)
+  Iniciar(r2,31,20)
+  Iniciar(fiscal,20,18)
+fin
