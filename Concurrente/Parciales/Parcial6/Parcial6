@@ -1,0 +1,97 @@
+{  La verdad este parcial fue re dificil de entender, yo lo hice así}
+programa Parcial6
+procesos
+  proceso juntarFlores(ES flores: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores := flores + 1
+  fin
+areas
+  area1 : AreaPC (6,1,6,60)
+  area2 : AreaPC(1,1,60,100)
+  areaF : AreaP(100,100,100,100)
+robots
+  robot florero
+  variables
+    ok : boolean
+    flores,calle,ca,av,id : numero
+  comenzar
+    flores := 0
+    id:= PosAv
+    RecibirMensaje(calle,fiscal)
+    si id = 1   
+      Pos(1,calle)
+      derecha
+    repetir 29
+      juntarFlores(flores)
+      si id = 6
+        si PosCa = calle
+          EnviarMensaje(id,fiscal)
+      si id = 1
+        av:= PosAv + 1
+        BloquearEsquina(av,calle)
+        mover
+        si PosAv = 6
+          EnviarMensaje(id,fiscal)
+        juntarFlores(flores)
+        mover
+        si PosAv = 6
+          EnviarMensaje(id,fiscal)
+        LiberarEsquina(av,calle)
+      sino
+        ca:= PosCa + 1
+        BloquearEsquina(6,ca)
+        mover
+        juntarFlores(flores)
+        si PosCa = calle
+          EnviarMensaje(id,fiscal)
+        mover
+        LiberarEsquina(6,ca)
+    mover
+    juntarFlores(flores)
+    EnviarMensaje(id,fiscal)
+    RecibirMensaje(ok,fiscal)
+    EnviarMensaje(flores,fiscal)
+  fin
+  robot fiscalizador
+  variables
+    flores,max,calle,idF,id,idG : numero
+  comenzar
+    idG := 0
+    max := 0
+    Random(calle,2,50)
+    EnviarMensaje(calle,f2)
+    EnviarMensaje(calle,f1)
+    repetir 2
+      RecibirMensaje(id,*)
+      si idG = 0
+        idG:= id  
+    Informar(idG)
+    repetir 2
+      RecibirMensaje(id,*)
+      si id = 6
+        EnviarMensaje(V,f1)
+        RecibirMensaje(flores,f1)
+      sino
+        EnviarMensaje(V,f2)
+        RecibirMensaje(flores,f2)
+      si (flores > max)
+        max:= flores
+        idF := id
+    Informar(idF)
+  fin
+variables
+  f1 : florero
+  f2 : florero
+  fiscal : fiscalizador
+comenzar
+  AsignarArea(f1,area1)
+  AsignarArea(f1,area2)
+  AsignarArea(f2,area2)
+  AsignarArea(f2,area1)
+  AsignarArea(fiscal,areaF)
+  Iniciar(f1,6,1)
+  Iniciar(f2,1,2)
+  Iniciar(fiscal,100,100)
+fin
