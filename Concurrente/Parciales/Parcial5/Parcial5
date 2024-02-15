@@ -1,0 +1,85 @@
+programa Parcial5
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso depositarFlores
+  comenzar
+    mientras HayFlorEnLaBolsa
+      depositarFlor
+  fin
+areas
+  area1 : AreaP(1,1,6,30)
+  area2 : AreaP(7,1,13,30)
+  area3 : AreaP(14,1,20,30)
+  area4 : AreaPC(50,50,50,50)
+  areaF : AreaP(100,100,100,100)
+robots
+  robot florero
+  variables
+    ok : boolean
+    flores,calleSig,lado,id,avIni,caIni : numero
+  comenzar
+    RecibirMensaje(id,fiscal)
+    repetir 3
+      Random(lado,1,5)
+      juntarFlores
+      repetir 4
+        repetir lado
+          mover
+          juntarFlores
+        derecha
+      si id = 1
+        EnviarMensaje(V,f2)
+        EnviarMensaje(V,f3)
+        RecibirMensaje(ok,f2)
+        RecibirMensaje(ok,f3)
+      sino
+        si id = 2
+          EnviarMensaje(V,f1)
+          EnviarMensaje(V,f3)
+          RecibirMensaje(ok,f1)
+          RecibirMensaje(ok,f3)
+        sino
+          EnviarMensaje(V,f1)
+          EnviarMensaje(V,f2)a
+          RecibirMensaje(ok,f1)
+          RecibirMensaje(ok,f2)
+      calleSig := PosCa + lado + 1
+      Pos(PosAv,calleSig)
+    avIni:= PosAv
+    caIni:= PosCa
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    depositarFlores
+    Pos(avIni,caIni)
+    LiberarEsquina(50,50)
+  fin
+  robot fiscalizador
+  variables
+    id : numero
+  comenzar
+    EnviarMensaje(1,f1)
+    EnviarMensaje(2,f2)
+    EnviarMensaje(3,f3)
+  fin
+variables
+  f1 : florero
+  f2 : florero
+  f3 : florero
+  fiscal : fiscalizador
+comenzar
+  AsignarArea(f1,area1)
+  AsignarArea(f2,area2)
+  AsignarArea(f3,area3)
+  AsignarArea(f1,area4)
+  AsignarArea(f2,area4)
+  AsignarArea(f3,area4)
+  AsignarArea(fiscal,areaF)
+  Iniciar(f1,1,1)
+  Iniciar(f2,7,1)
+  Iniciar(f3,14,1)
+  Iniciar(fiscal,100,100)
+fin
