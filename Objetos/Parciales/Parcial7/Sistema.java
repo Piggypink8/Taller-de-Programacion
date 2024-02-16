@@ -28,12 +28,14 @@ public class Sistema {
     }
     
     public boolean tieneTurnoAgendado(Paciente p,int dia){
+        boolean ok = false;
         int i = 0;
-        while((i < 6) & (!this.pacientes[dia][i].equals(p))){
-            System.out.println(i);
+        while((i < 6) & (!ok)){
+            if(this.pacientes[dia][i] != null)
+                ok = this.pacientes[dia][i].equals(p);
             i++;
         }
-        return this.pacientes[dia][i].equals(p);
+        return ok;
     }
     
     public void liberarPaciente(Paciente p){
