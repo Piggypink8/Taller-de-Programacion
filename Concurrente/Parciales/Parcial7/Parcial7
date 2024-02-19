@@ -27,8 +27,7 @@ areas
 robots
   robot parte1
   variables
-    ok : boolean
-    id,flores,equipo : numero
+    flores,equipo : numero
   comenzar
     si PosAv = 1
       equipo := 1
@@ -49,7 +48,6 @@ robots
   robot parte2
   variables
     flores,equipo : numero
-    ok : boolean
   comenzar
     si PosAv = 10
       equipo := 1
