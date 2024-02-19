@@ -1,0 +1,112 @@
+programa Parcial8
+procesos
+  proceso juntarFlores(ES flores : numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores := flores + 1
+  fin
+  proceso depositarEsquina
+  variables
+    avIni,caIni : numero
+  comenzar
+    avIni := PosAv
+    caIni := PosCa
+    mientras HayFlorEnLaBolsa
+      BloquearEsquina(20,20)
+      Pos(20,20)
+      depositarFlor
+      Pos(avIni,caIni)
+      LiberarEsquina(20,20)
+  fin
+areas
+  area1 : AreaP(1,1,10,10)
+  area2 : AreaP(11,1,20,10)
+  area3 : AreaC(20,20,20,20)
+  areaF : AreaP(100,100,100,100)
+robots
+  robot parte1
+  variables
+    ok : boolean
+    id,flores,equipo : numero
+  comenzar
+    si PosAv = 1
+      equipo := 1
+    sino
+      equipo := 2
+    juntarFlores(flores)
+    repetir 2
+      repetir 9
+        mover
+        juntarFlores(flores)
+      derecha
+    depositarEsquina
+    si equipo = 1
+      EnviarMensaje(flores,r2)
+    sino
+      EnviarMensaje(flores,r4)
+  fin
+  robot parte2
+  variables
+    flores,equipo : numero
+    ok : boolean
+  comenzar
+    si PosAv = 10
+      equipo := 1
+    sino
+      equipo := 2
+    repetir 2
+      derecha
+    si equipo = 1
+      RecibirMensaje(flores,r1)
+    sino
+      RecibirMensaje(flores,r3)
+    juntarFlores(flores)
+    repetir 2
+      repetir 8
+        mover
+        juntarFlores(flores)
+      derecha
+    depositarEsquina
+    EnviarMensaje(equipo,fiscal)
+    EnviarMensaje(flores,fiscal)
+  fin  
+  robot fiscalizador
+  variables
+    equipoG,equipo,flores1,flores2 : numero
+  comenzar
+    repetir 2
+      RecibirMensaje(equipo,*)
+      si equipo = 1
+        RecibirMensaje(flores1,r2)
+      sino
+        RecibirMensaje(flores2,r4)
+    si (flores1 > flores2)
+      equipoG := 1 
+    sino 
+      equipoG := 2
+    Informar(equipoG)
+  fin
+variables
+  r1 : parte1
+  r2 : parte2
+  r3 : parte1
+  r4 : parte2
+  fiscal : fiscalizador
+comenzar
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area1)
+  AsignarArea(r3,area2)
+  AsignarArea(r4,area2)
+  AsignarArea(r1,area3)
+  AsignarArea(r2,area3)
+  AsignarArea(r3,area3)
+  AsignarArea(r4,area3)
+  AsignarArea(fiscal,areaF)
+  AsignarArea(fiscal,area3)
+  Iniciar(r1,1,1)
+  Iniciar(r2,10,9)
+  Iniciar(r3,11,1)
+  Iniciar(r4,20,9)
+  Iniciar(fiscal,100,100)
+fin
