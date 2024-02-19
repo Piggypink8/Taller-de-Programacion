@@ -1,4 +1,4 @@
-programa Parcial8
+programa Parcial7
 procesos
   proceso juntarFlores(ES flores : numero)
   comenzar
